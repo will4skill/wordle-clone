@@ -1,10 +1,24 @@
 import GamePiece from "./GamePiece";
 
-const WordRow = ({ word }) => {
-    const getLetterArray = (word) => {
-        const letterArray = word.split("");
-        while (letterArray.length < 5) {
-            letterArray.push("");
+const WordRow = ({ word, targetWord, old }) => {
+
+    const getColor = (letter, targetWord, idx) => {
+        let color = "DodgerBlue";
+        if (letter === targetWord[idx]) {
+            color = "green"
+        } else if (targetWord.includes(letter)) {
+            color = "gold"
+        }
+        return color;
+    }
+
+    const getLetterArray = (word, targetWord) => {
+        const letterArray = [];
+        for (let i = 0; i < 5; ++i) {
+            letterArray.push({
+                letter: word[i] ? word[i] : "",
+                color: old ? getColor(word[i], targetWord, i) : "DodgerBlue",
+            })
         }
         return letterArray;
     };
@@ -12,7 +26,12 @@ const WordRow = ({ word }) => {
     return (
         <div style={{ display: "flex", flexDirection: 'row' }}>
             {
-                getLetterArray(word).map((letter, index) => <GamePiece letter={letter} key={index} />)
+                getLetterArray(word, targetWord).map((letterObj, index) =>
+                    <GamePiece
+                        letter={letterObj.letter}
+                        key={index}
+                        color={letterObj.color}
+                    />)
             }
         </div>
     );

@@ -1,8 +1,8 @@
-const GamePiece = ({ letter }) => {
+const GamePiece = ({ letter, color }) => {
     const styles = {
         display: 'flex',
         color: "white",
-        backgroundColor: "DodgerBlue",
+        backgroundColor: color,
         fontFamily: "Arial",
         textTransform: "uppercase",
         fontWeight: 'bold',

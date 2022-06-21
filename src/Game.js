@@ -11,20 +11,30 @@ import React, { useState, useEffect, useCallback } from 'react';
 function Game() {
   const [wordGrid, setWordGrid] = useState(["", "", "", "", "", ""]);
   const [currRow, setCurrRow] = useState(0);
+  const [targetWord, setTargetWord] = useState("sweat");
 
   const handleKeyboardInput = (e) => {
     handleKeyPress(e.key,);
   };
+
+  const resetGame = () => {
+    setWordGrid(["", "", "", "", "", ""]);
+    setCurrRow(0);
+  }
 
   const handleKeyPress = (key, e) => {
     console.log("KEYPRESS: " + key)
     const wordGridCopy = [...wordGrid];
     const keyPressed = key;
 
-    if ((keyPressed === "enter" || keyPressed === "Enter") && currRow < 5) {
+    if ((keyPressed === "enter" || keyPressed === "Enter")) {
       if (wordGrid[currRow].length < 5)
         alert("Word Too Short");
       else {
+        if (wordGrid[currRow] === targetWord)
+          alert("YOU WIN!!");
+        else if (currRow === 5)
+          alert("YOU LOSE")
         setCurrRow(currRow + 1);
       }
       return;
@@ -37,8 +47,6 @@ function Game() {
       setWordGrid(wordGridCopy);
       return;
     }
-
-
 
     if (currWord.length < 5 && /^([a-z]){1}$/.test(keyPressed)) {
       wordGridCopy[currRow] += keyPressed;
@@ -54,13 +62,13 @@ function Game() {
   return (
     <div className="App">
       <header className="App-header">
-        <WordRow word={wordGrid[0]} />
-        <WordRow word={wordGrid[1]} />
-        <WordRow word={wordGrid[2]} />
-        <WordRow word={wordGrid[3]} />
-        <WordRow word={wordGrid[4]} />
-        <WordRow word={wordGrid[5]} />
-        <Keyboard handleKeyPress={handleKeyPress} />
+        <div style={{ backgroundColor: "green", height: "100px", width: "200px" }} onClick={resetGame}>
+          RESET GAME
+        </div>
+        {
+          wordGrid.map((word, index) => <WordRow old={currRow > index} word={word} targetWord={targetWord} key={index} />)
+        }
+        <Keyboard handleKeyPress={handleKeyPress} targetWord={targetWord} />
       </header>
     </div>
   );
