@@ -1,9 +1,9 @@
-const Key = ({ letter, wide, handleClick }) => {
+const Key = ({ letter, wide, handleClick, backgroundColor = "gray" }) => {
     const width = wide ? '67.5px' : '45px';
     const styles = {
         display: 'flex',
         color: "white",
-        backgroundColor: "gray",
+        backgroundColor,
         fontFamily: "Arial",
         textTransform: "uppercase",
         fontWeight: 'bold',

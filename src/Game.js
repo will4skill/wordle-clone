@@ -12,6 +12,7 @@ function Game() {
   const [wordGrid, setWordGrid] = useState(["", "", "", "", "", ""]);
   const [currRow, setCurrRow] = useState(0);
   const [targetWord, setTargetWord] = useState("sweat");
+  const [usedLetters, setUsedLetters] = useState("");
 
   const handleKeyboardInput = (e) => {
     handleKeyPress(e.key,);
@@ -20,6 +21,7 @@ function Game() {
   const resetGame = () => {
     setWordGrid(["", "", "", "", "", ""]);
     setCurrRow(0);
+    setUsedLetters("");
   }
 
   const handleKeyPress = (key, e) => {
@@ -28,14 +30,16 @@ function Game() {
     const keyPressed = key;
 
     if ((keyPressed === "enter" || keyPressed === "Enter")) {
-      if (wordGrid[currRow].length < 5)
+      const newWord = wordGrid[currRow];
+      if (newWord.length < 5)
         alert("Word Too Short");
       else {
-        if (wordGrid[currRow] === targetWord)
+        if (newWord === targetWord)
           alert("YOU WIN!!");
         else if (currRow === 5)
           alert("YOU LOSE")
         setCurrRow(currRow + 1);
+        updateUsedLetters(newWord);
       }
       return;
     }
@@ -48,11 +52,18 @@ function Game() {
       return;
     }
 
+
     if (currWord.length < 5 && /^([a-z]){1}$/.test(keyPressed)) {
       wordGridCopy[currRow] += keyPressed;
       setWordGrid(wordGridCopy);
     }
   };
+
+  const updateUsedLetters = (newWord) => {
+    for (let i = 0; i < newWord.length; ++i)
+      if (!usedLetters.includes(newWord[i]))
+        setUsedLetters(usedLetters + newWord[i]);
+  }
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyboardInput);
@@ -68,7 +79,7 @@ function Game() {
         {
           wordGrid.map((word, index) => <WordRow old={currRow > index} word={word} targetWord={targetWord} key={index} />)
         }
-        <Keyboard handleKeyPress={handleKeyPress} targetWord={targetWord} />
+        <Keyboard handleKeyPress={handleKeyPress} usedLetters={usedLetters} targetWord={targetWord} />
       </header>
     </div>
   );
