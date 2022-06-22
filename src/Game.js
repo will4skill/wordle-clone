@@ -1,16 +1,20 @@
 // Add and remove an event listener for key presses:
 // Add keyboard event listener: https://stackoverflow.com/questions/64434545/react-keydown-event-listener-is-being-called-multiple-times
 // Only look for lowercase letters
+// Get random: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+
 
 import './Game.css';
 import WordRow from './components/WordRow';
 import Keyboard from './components/Keyboard';
 import React, { useState, useEffect } from 'react';
+import guesses from './guesses';
+import answers from './answers';
 
 function Game() {
   const [wordGrid, setWordGrid] = useState(["", "", "", "", "", ""]);
   const [currRow, setCurrRow] = useState(0);
-  const [targetWord, setTargetWord] = useState("sweat");
+  const [targetWord, setTargetWord] = useState("");
   const [usedLetters, setUsedLetters] = useState("");
 
   const handleKeyboardInput = (e) => {
@@ -31,6 +35,8 @@ function Game() {
       const newWord = wordGrid[currRow];
       if (newWord.length < 5)
         alert("Word Too Short");
+      else if (!guesses.has(newWord))
+        alert("That word is not allowed");
       else {
         if (newWord === targetWord)
           alert("YOU WIN!!");
@@ -56,7 +62,6 @@ function Game() {
   };
 
   const updateUsedLetters = (newWord) => {
-    console.log("NEW WORD", newWord);
     let usedLettersCopy = usedLetters;
     for (let i = 0; i < newWord.length; ++i) {
       const newLetter = newWord[i];
@@ -71,7 +76,12 @@ function Game() {
     return () => document.removeEventListener("keydown", handleKeyboardInput);
   });
 
-  console.log("USED LETTERS", usedLetters)
+  useEffect(() => {
+    const randomIdx = Math.floor(Math.random() * answers.length);
+    const randomTargetWord = answers[randomIdx];
+    setTargetWord(randomTargetWord);
+  }, [])
+
 
   return (
     <div className="App">
