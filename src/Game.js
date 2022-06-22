@@ -2,11 +2,10 @@
 // Add keyboard event listener: https://stackoverflow.com/questions/64434545/react-keydown-event-listener-is-being-called-multiple-times
 // Only look for lowercase letters
 
-import logo from './logo.svg';
 import './Game.css';
 import WordRow from './components/WordRow';
 import Keyboard from './components/Keyboard';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Game() {
   const [wordGrid, setWordGrid] = useState(["", "", "", "", "", ""]);
@@ -25,7 +24,6 @@ function Game() {
   }
 
   const handleKeyPress = (key, e) => {
-    console.log("KEYPRESS: " + key)
     const wordGridCopy = [...wordGrid];
     const keyPressed = key;
 
@@ -43,7 +41,6 @@ function Game() {
       }
       return;
     }
-
     const currWord = wordGridCopy[currRow];
 
     if ((keyPressed === "del" || keyPressed === "Backspace") && keyPressed.length) {
@@ -52,7 +49,6 @@ function Game() {
       return;
     }
 
-
     if (currWord.length < 5 && /^([a-z]){1}$/.test(keyPressed)) {
       wordGridCopy[currRow] += keyPressed;
       setWordGrid(wordGridCopy);
@@ -60,15 +56,22 @@ function Game() {
   };
 
   const updateUsedLetters = (newWord) => {
-    for (let i = 0; i < newWord.length; ++i)
-      if (!usedLetters.includes(newWord[i]))
-        setUsedLetters(usedLetters + newWord[i]);
+    console.log("NEW WORD", newWord);
+    let usedLettersCopy = usedLetters;
+    for (let i = 0; i < newWord.length; ++i) {
+      const newLetter = newWord[i];
+      if (!usedLettersCopy.includes(newLetter))
+        usedLettersCopy += newLetter;
+    }
+    setUsedLetters(usedLettersCopy);
   }
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyboardInput);
     return () => document.removeEventListener("keydown", handleKeyboardInput);
   });
+
+  console.log("USED LETTERS", usedLetters)
 
   return (
     <div className="App">
