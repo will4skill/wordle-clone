@@ -1,5 +1,52 @@
-.App {
-  text-align: center;
+.root,
+.container,
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.container,
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #282c34;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  background-color: purple;
+  justify-content: flex-end;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.resetButton {
+  display: flex;
+  background-color: green;
+}
+
+.gameBoardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.keyboardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
 }
 
 .App-logo {
@@ -32,6 +79,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

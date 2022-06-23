@@ -2,6 +2,7 @@
 // Add keyboard event listener: https://stackoverflow.com/questions/64434545/react-keydown-event-listener-is-being-called-multiple-times
 // Only look for lowercase letters
 // Get random: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+// Make parent cover whole screen
 
 
 import './Game.css';
@@ -84,16 +85,28 @@ function Game() {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <div style={{ backgroundColor: "green", height: "100px", width: "200px" }} onClick={resetGame}>
+    <div className="container">
+      <div className="headerContainer">
+        <div className="resetButton" onClick={resetGame}>
           RESET GAME
         </div>
+      </div>
+      <div className="gameBoardContainer">
         {
-          wordGrid.map((word, index) => <WordRow old={currRow > index} word={word} targetWord={targetWord} key={index} />)
+          wordGrid.map((word, index) =>
+            <WordRow
+              old={currRow > index}
+              word={word}
+              targetWord={targetWord}
+              key={index} />)
         }
-        <Keyboard handleKeyPress={handleKeyPress} usedLetters={usedLetters} targetWord={targetWord} />
-      </header>
+      </div>
+      <div className="keyboardContainer">
+        <Keyboard
+          handleKeyPress={handleKeyPress}
+          usedLetters={usedLetters}
+          targetWord={targetWord} />
+      </div>
     </div>
   );
 }

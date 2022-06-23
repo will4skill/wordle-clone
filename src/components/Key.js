@@ -1,5 +1,5 @@
 const Key = ({ letter, wide, handleClick, backgroundColor = "gray" }) => {
-    const width = wide ? '67.5px' : '45px';
+    const width = wide ? '45px' : '30px'; //wide ? '67.5px' : '45px';
     const styles = {
         display: 'flex',
         color: "white",
