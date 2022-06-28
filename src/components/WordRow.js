@@ -1,13 +1,13 @@
 import GamePiece from "./GamePiece";
+import '../Game.css';
 
-const WordRow = ({ word, targetWord, old }) => {
-
+const WordRow = ({ word, targetWord, old, currIdx, row, lastKey, isLastRow, gameState }) => {
     const getColor = (letter, targetWord, idx) => {
-        let color = "DodgerBlue";
+        let color = "black";
         if (letter === targetWord[idx]) {
-            color = "green"
+            color = "green";
         } else if (targetWord.includes(letter)) {
-            color = "gold"
+            color = "gold";
         }
         return color;
     }
@@ -23,11 +23,21 @@ const WordRow = ({ word, targetWord, old }) => {
         return letterArray;
     };
 
+    const isWinner = (gameState === "win" && isLastRow);
+
     return (
-        <div style={{ display: "flex", flexDirection: 'row' }}>
+        <div
+            className={`wordRow ${isWinner ? "jump" : ""}`}
+            style={{ display: "flex", flexDirection: 'row' }}
+        >
             {
                 getLetterArray(word, targetWord).map((letterObj, index) =>
                     <GamePiece
+                        isWinner={isWinner}
+                        isLastRow={isLastRow}
+                        lastKey={lastKey}
+                        currIdx={currIdx}
+                        selfIdx={row * 5 + index}
                         letter={letterObj.letter}
                         key={index}
                         color={letterObj.color}

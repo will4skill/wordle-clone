@@ -3,7 +3,9 @@
 // Only look for lowercase letters
 // Get random: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // Make parent cover whole screen
-
+// Bounce Animation: https://css-tricks.com/snippets/css/keyframe-animation-syntax/
+// Staggering Animations: https://css-tricks.com/different-approaches-for-creating-a-staggered-animation/
+// Add delay: https://stackoverflow.com/questions/42089548/how-to-add-delay-in-reactjs
 
 import './Game.css';
 import WordRow from './components/WordRow';
@@ -17,6 +19,8 @@ function Game() {
   const [currRow, setCurrRow] = useState(0);
   const [targetWord, setTargetWord] = useState("");
   const [usedLetters, setUsedLetters] = useState("");
+  const [lastKey, setLastKey] = useState("");
+  const [gameState, setGameState] = useState("");
 
   const handleKeyboardInput = (e) => {
     handleKeyPress(e.key,);
@@ -26,6 +30,8 @@ function Game() {
     setWordGrid(["", "", "", "", "", ""]);
     setCurrRow(0);
     setUsedLetters("");
+    setLastKey("");
+    setGameState("");
   }
 
   const handleKeyPress = (key, e) => {
@@ -39,12 +45,17 @@ function Game() {
       else if (!guesses.has(newWord))
         alert("That word is not allowed");
       else {
-        if (newWord === targetWord)
+        if (newWord === targetWord) {
           alert("YOU WIN!!");
-        else if (currRow === 5)
+          setGameState("win");
+        }
+        else if (currRow === 5) {
           alert("YOU LOSE")
+          setGameState("lose");
+        }
         setCurrRow(currRow + 1);
         updateUsedLetters(newWord);
+        setLastKey(keyPressed);
       }
       return;
     }
@@ -53,12 +64,14 @@ function Game() {
     if ((keyPressed === "del" || keyPressed === "Backspace") && keyPressed.length) {
       wordGridCopy[currRow] = currWord.substring(0, currWord.length - 1)
       setWordGrid(wordGridCopy);
+      setLastKey(keyPressed);
       return;
     }
 
     if (currWord.length < 5 && /^([a-z]){1}$/.test(keyPressed)) {
       wordGridCopy[currRow] += keyPressed;
       setWordGrid(wordGridCopy);
+      setLastKey(keyPressed);
     }
   };
 
@@ -83,7 +96,6 @@ function Game() {
     setTargetWord(randomTargetWord);
   }, [])
 
-
   return (
     <div className="container">
       <div className="headerContainer">
@@ -95,6 +107,11 @@ function Game() {
         {
           wordGrid.map((word, index) =>
             <WordRow
+              gameState={gameState}
+              lastKey={lastKey}
+              currIdx={(currRow * 5) + wordGrid[currRow]?.length}
+              row={index}
+              isLastRow={index === currRow - 1 && lastKey === "Enter"}
               old={currRow > index}
               word={word}
               targetWord={targetWord}
