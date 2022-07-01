@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 .root,
 .containerStyle,
 html,
@@ -10,9 +17,18 @@ body {
 
 .containerStyle,
 .root {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background-color: #282c34;
 }
@@ -22,15 +38,26 @@ body {
 }
 
 .headerContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
   background-color: purple;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
   width: 100%;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
   flex-grow: 1;
 }
 
 .resetButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   background-color: green;
 }
@@ -45,111 +72,204 @@ body {
 }
 
 .gameBoardContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 15px;
   margin-bottom: 80px;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
   flex-grow: 1;
   width: 100%;
 }
 
 .keyboardContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
   flex-grow: 1;
   width: 100%;
 }
 
 
 .bounce {
+  -webkit-animation-name: bounce;
   animation-name: bounce;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
   /* or: Xms */
+  -webkit-animation-iteration-count: 2;
   animation-iteration-count: 2;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
   /* or: normal */
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
   /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   /* or: backwards, both, none */
+  -webkit-animation-delay: 0s;
   animation-delay: 0s;
   /* or: Xms */
+}
+
+@-webkit-keyframes bounce {
+  to {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
 }
 
 @keyframes bounce {
   to {
     -webkit-transform: scale(1.2);
+    transform: scale(1.2);
   }
 }
 
 .flip {
+  -webkit-animation-name: flip;
   animation-name: flip;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
   /* or: Xms */
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
   /* or: normal */
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
   /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   /* or: backwards, both, none */
+  -webkit-animation-delay: 0s;
   animation-delay: 0s;
   /* or: Xms */
 }
 
 .flipGreen {
+  -webkit-animation-name: flipGreen;
   animation-name: flipGreen;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+  -webkit-animation-delay: 0s;
   animation-delay: 0s;
 }
 
 .flipGold {
+  -webkit-animation-name: flipGold;
   animation-name: flipGold;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+  -webkit-animation-delay: 0s;
   animation-delay: 0s;
 }
 
 .wordRow .animationChild:nth-child(1) {
+  -webkit-animation-delay: 500ms;
   animation-delay: 500ms;
 }
 
 .wordRow .animationChild:nth-child(2) {
+  -webkit-animation-delay: 1000ms;
   animation-delay: 1000ms;
 }
 
 .wordRow .animationChild:nth-child(3) {
+  -webkit-animation-delay: 1500ms;
   animation-delay: 1500ms;
 }
 
 .wordRow .animationChild:nth-child(4) {
+  -webkit-animation-delay: 2000ms;
   animation-delay: 2000ms;
 }
 
 .wordRow .animationChild:nth-child(5) {
+  -webkit-animation-delay: 2500ms;
   animation-delay: 2500ms;
+}
+
+@-webkit-keyframes flip {
+  from {
+    background-color: dodgerblue;
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+
+  to {
+    background-color: black;
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
 }
 
 @keyframes flip {
   from {
     background-color: dodgerblue;
     -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 
   to {
     background-color: black;
     -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+}
+
+@-webkit-keyframes flipGreen {
+  from {
+    background-color: dodgerblue;
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+
+  to {
+    background-color: green;
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
@@ -157,11 +277,27 @@ body {
   from {
     background-color: dodgerblue;
     -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 
   to {
     background-color: green;
     -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+}
+
+@-webkit-keyframes flipGold {
+  from {
+    background-color: dodgerblue;
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+
+  to {
+    background-color: #ECA400;
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
@@ -169,32 +305,58 @@ body {
   from {
     background-color: dodgerblue;
     -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 
   to {
     background-color: #ECA400;
     -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
 .updateKeyColorBlack {
+  -webkit-animation-name: updateKeyColorBlack;
   animation-name: updateKeyColorBlack;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+  -webkit-animation-delay: 2.5s;
   animation-delay: 2.5s;
 }
 
 .updateKeyColorGreen {
+  -webkit-animation-name: updateKeyColorGreen;
   animation-name: updateKeyColorGreen;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+  -webkit-animation-delay: 2.5s;
   animation-delay: 2.5s;
+}
+
+@-webkit-keyframes updateKeyColorBlack {
+  from {
+    background-color: gray;
+  }
+
+  to {
+    background-color: black;
+  }
 }
 
 @keyframes updateKeyColorBlack {
@@ -204,6 +366,16 @@ body {
 
   to {
     background-color: black;
+  }
+}
+
+@-webkit-keyframes updateKeyColorGreen {
+  from {
+    background-color: gray;
+  }
+
+  to {
+    background-color: green;
   }
 }
 
@@ -218,11 +390,17 @@ body {
 }
 
 .jump {
+  -webkit-animation-name: jump;
   animation-name: jump;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+  -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
   animation-direction: alternate;
+  -webkit-animation-timing-function: ease-in;
   animation-timing-function: ease-in;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
 
@@ -234,13 +412,23 @@ body {
   margin-top: 20px;
 }
 
+@-webkit-keyframes jump {
+  to {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px)
+  }
+}
+
 @keyframes jump {
   to {
-    -webkit-transform: translateY(-20px)
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px)
   }
 }
 
 .gamePiece {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   color: white;
   font-family: Arial;
@@ -251,7 +439,11 @@ body {
   width: 60px;
   /* min-height: 30px;
   min-width: 30px; */
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   margin-right: 5px;
   margin-bottom: 5px;
