@@ -62,7 +62,6 @@ function Game() {
       };
     });
     setScores(scoreList);
-    console.log("Fetched Scores", scoreList);
   }
 
   const saveScore = async (name, time) => {
@@ -71,7 +70,6 @@ function Game() {
       time,
       name: name ? name : "Anonymous",
     });
-    console.log("Saved Score", res.data);
     setYourId(res.id);
   }
 
@@ -83,8 +81,6 @@ function Game() {
     setTargetWord(randomTargetWord);
   }
 
-  // console.log(targetWord);
-
   const handleNameChange = (event) => {
     setName(event.target.value);
   }
@@ -92,7 +88,6 @@ function Game() {
   const handlSaveName = (event) => {
     event.preventDefault();
     setIsNameSaved(true);
-    console.log("NAme", name);
   }
 
   const startTheGame = () => {
