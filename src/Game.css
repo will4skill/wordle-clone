@@ -5,6 +5,7 @@ body {
   height: 100%;
   margin: 0;
   min-width: 370px;
+  background-color: #282c34;
 }
 
 .containerStyle,
@@ -143,36 +144,36 @@ body {
 @keyframes flip {
   from {
     background-color: dodgerblue;
-    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
   }
 
   to {
     background-color: black;
-    transform: rotateY(360deg);
+    -webkit-transform: rotateY(360deg);
   }
 }
 
 @keyframes flipGreen {
   from {
     background-color: dodgerblue;
-    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
   }
 
   to {
     background-color: green;
-    transform: rotateY(360deg);
+    -webkit-transform: rotateY(360deg);
   }
 }
 
 @keyframes flipGold {
   from {
     background-color: dodgerblue;
-    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
   }
 
   to {
     background-color: #ECA400;
-    transform: rotateY(360deg);
+    -webkit-transform: rotateY(360deg);
   }
 }
 
@@ -235,7 +236,7 @@ body {
 
 @keyframes jump {
   to {
-    transform: translateY(-20px)
+    -webkit-transform: translateY(-20px)
   }
 }
 
