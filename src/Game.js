@@ -284,7 +284,7 @@ function Game() {
           {gameState === "new" && !isNameSaved && <Form onSubmit={handlSaveName}>
             <Form.Label>What is your Name?</Form.Label>
             <Form.Control type="text" placeholder="Your Name" value={name} onChange={handleNameChange} />
-            <Button className="buttonOffset" variant="success" type="submit" >Save Name</Button>
+            <Button disabled={!name.length} className="buttonOffset" variant="success" type="submit" >Save Name</Button>
           </Form>}
           {gameState === "win" && <div>
             <Alert> Your Final Time: {formatTimeString(finalTime)}</Alert>
