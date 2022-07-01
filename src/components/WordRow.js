@@ -7,7 +7,7 @@ const WordRow = ({ word, targetWord, old, currIdx, row, lastKey, isLastRow, game
         if (letter === targetWord[idx]) {
             color = "green";
         } else if (targetWord.includes(letter)) {
-            color = "gold";
+            color = "#ECA400";
         }
         return color;
     }

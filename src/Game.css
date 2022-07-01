@@ -4,6 +4,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  min-width: 370px;
 }
 
 .containerStyle,
@@ -13,6 +14,10 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #282c34;
+}
+
+.minWidth {
+  min-width: 370px;
 }
 
 .headerContainer {
@@ -166,7 +171,7 @@ body {
   }
 
   to {
-    background-color: gold;
+    background-color: #ECA400;
     transform: rotateY(360deg);
   }
 }
@@ -220,13 +225,38 @@ body {
   animation-fill-mode: forwards;
 }
 
+.rowHighlight {
+  background-color: #cfe2ff;
+}
+
+.buttonOffset {
+  margin-top: 20px;
+}
+
 @keyframes jump {
   to {
     transform: translateY(-20px)
   }
 }
 
-@media (min-width: 576px) {
+.gamePiece {
+  display: flex;
+  color: white;
+  font-family: Arial;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 30px;
+  height: 60px;
+  width: 60px;
+  /* min-height: 30px;
+  min-width: 30px; */
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+/* @media (min-width: 576px) {
   .container {
     max-width: 540px;
   }
@@ -242,4 +272,4 @@ body {
   .container {
     max-width: 960px;
   }
-}
+} */

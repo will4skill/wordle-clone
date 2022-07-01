@@ -11,6 +11,7 @@
 // https://stackoverflow.com/questions/53090432/react-hooks-right-way-to-clear-timeouts-and-intervals
 // Clear Interval: https://developer.mozilla.org/en-US/docs/Web/API/clearInterval
 // Get current time: https://stackoverflow.com/questions/10599148/how-do-i-get-the-current-time-only-in-javascript
+// Security Rules: https://smarx.com/posts/
 
 import './Game.css';
 import WordRow from './components/WordRow';
@@ -22,6 +23,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert';
+import Form from 'react-bootstrap/Form';
+import { firestore, fromDate } from './firebase';
 
 function Game() {
   const [wordGrid, setWordGrid] = useState(["", "", "", "", "", ""]);
@@ -37,6 +40,40 @@ function Game() {
   const [tickState, setTickState] = useState(0);
 
   const [finalTime, setFinalTime] = useState(null);
+  const [name, setName] = useState("");
+  const [isNameSaved, setIsNameSaved] = useState(false);
+  const [yourId, setYourId] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Backend
+  const [scores, setScores] = useState([]);
+
+  const fetchTopScores = async () => {
+    const scoresRef = firestore.collection('scores').orderBy("time", "asc").limit(5);
+    const scoresQueryResult = await scoresRef.get();
+    const scoreList = scoresQueryResult.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        time: data.time,
+        date: formatDate(data.date),
+        name: data.name,
+      };
+    });
+    setScores(scoreList);
+    console.log("Fetched Scores", scoreList);
+  }
+
+  const saveScore = async (name, time) => {
+    const res = await firestore.collection('scores').add({
+      date: fromDate(new Date()),
+      time,
+      name: name ? name : "Anonymous",
+    });
+    console.log("Saved Score", res.data);
+    setYourId(res.id);
+  }
 
   const delay = (mili) => new Promise(res => setTimeout(res, mili));
 
@@ -48,6 +85,16 @@ function Game() {
 
   // console.log(targetWord);
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
+
+  const handlSaveName = (event) => {
+    event.preventDefault();
+    setIsNameSaved(true);
+    console.log("NAme", name);
+  }
+
   const startTheGame = () => {
     stop();
     start();
@@ -55,12 +102,15 @@ function Game() {
     setCurrRow(0);
     setUsedLetters("");
     setLastKey("");
-    setGameState("new");
+    setGameState("play");
     resetTargetWord();
     setShow(false);
   }
 
   useEffect(() => {
+    resetTargetWord();
+    fetchTopScores();
+
     let timer = setInterval(() => {
       setTickState(tickState => tickState + 10);
     }, 10);
@@ -141,20 +191,26 @@ function Game() {
   };
 
   const handleKeyPress = (key, e) => {
+    if (gameState !== "play") return;
+
+    setErrorMessage("");
+
     const wordGridCopy = [...wordGrid];
     const keyPressed = key;
 
     if ((keyPressed === "enter" || keyPressed === "Enter")) {
       const newWord = wordGrid[currRow];
       if (newWord.length < 5)
-        alert("Word Too Short");
+        setErrorMessage("That Word is Too Short!");
       else if (!guesses.has(newWord))
-        alert("That word is not allowed");
+        setErrorMessage("That Word is Not Allowed!");
       else {
         if (newWord === targetWord) {
           handleShow();
           setGameState("win");
           setFinalTime(secondsElapsed);
+          saveScore(name, secondsElapsed);
+          fetchTopScores();
           pause();
         }
         else if (currRow === 5) {
@@ -199,9 +255,6 @@ function Game() {
     return () => document.removeEventListener("keydown", handleKeyboardInput);
   });
 
-  useEffect(() => {
-    resetTargetWord();
-  }, [])
 
   const getModalButtonText = (state) => {
     if (gameState === "new") return "Start Game!";
@@ -210,48 +263,66 @@ function Game() {
   }
 
   const getModalBodyText = (state) => {
-    if (gameState === "new") return "Press the Button to Start the Game and Timer"
+    if (gameState === "new" && !isNameSaved) return "Save Your Name, then Start the Game!"
+    if (gameState === "new" && isNameSaved) return "Let the Games Begin!"
     if (gameState === "win") return "Great Job!";
     if (gameState === "lose") return "Sorry, Better Luck Next Time";
   }
 
+  const formatDate = (date) => {
+    const formattedDate = new Date(date.toMillis());
+    return formattedDate.toLocaleDateString();
+  }
+
   return (
     <div className="containerStyle">
-      <Modal show={show} centered>
+      <Modal className="minWidth" show={show} centered>
         <Modal.Header>
           <Modal.Title>{getModalBodyText(gameState)}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{gameState === "win" && <div>
-          <Alert> Your Final Time: {formatTimeString(finalTime)}</Alert>
-          <h5>Top 10 Times:</h5>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((entry, index) => <tr>
-                <td>{entry}</td>
-                <td>Mark</td>
-                <td>1111 seconds</td>
-              </tr>)}
-            </tbody>
-          </Table>
-        </div>}
-          {gameState === "lose" && <img src="https://i.giphy.com/media/TJawtKM6OCKkvwCIqX/giphy.webp" alt="this slowpoke moves" style={{ width: "100%" }} />}
+        <Modal.Body>
+          {gameState === "new" && !isNameSaved && <Form onSubmit={handlSaveName}>
+            <Form.Label>What is your Name?</Form.Label>
+            <Form.Control type="text" placeholder="Your Name" value={name} onChange={handleNameChange} />
+            <Button className="buttonOffset" variant="success" type="submit" >Save Name</Button>
+          </Form>}
+          {gameState === "win" && <div>
+            <Alert> Your Final Time: {formatTimeString(finalTime)}</Alert>
+            <h5>Top 5 Times:</h5>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                  <th>Time</th>
+                  <th>Date Archived</th>
+                </tr>
+              </thead>
+              <tbody>
+                {scores.map((score, index) => <tr className={score.id === yourId ? "rowHighlight" : ""} key={score.id}>
+                  <td>{index}</td>
+                  <td>{score.name}</td>
+                  <td>{formatTimeString(score.time)}</td>
+                  <td>{score.date}</td>
+                </tr>)}
+              </tbody>
+            </Table>
+          </div>}
+
+
+          {gameState === "new" && isNameSaved && <img src="https://i.giphy.com/media/1Ygkk70ho1h6YrK6oC/giphy.webp" style={{ width: "100%" }} alt="game face" />}
+          {gameState === "lose" && <img src="https://i.giphy.com/media/TJawtKM6OCKkvwCIqX/giphy.webp" style={{ width: "100%" }} alt="sadness" />}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={startTheGame}>
+          {isNameSaved && <Button variant="primary" onClick={startTheGame}>
             {getModalButtonText(gameState)}
-          </Button>
+          </Button>}
         </Modal.Footer>
       </Modal>
 
       <div className="timer">{formatTimeString(secondsElapsed)}</div>
 
+      {errorMessage.length && <Alert variant="danger">{errorMessage}</Alert>}
       <div className="gameBoardContainer">
         {
           wordGrid.map((word, index) =>
