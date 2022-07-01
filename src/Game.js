@@ -316,8 +316,7 @@ function Game() {
       </Modal>
 
       <div className="timer">{formatTimeString(secondsElapsed)}</div>
-
-      {errorMessage.length && <Alert variant="danger">{errorMessage}</Alert>}
+      {errorMessage.length > 0 && <Alert variant="danger">{errorMessage}</Alert>}
       <div className="gameBoardContainer">
         {
           wordGrid.map((word, index) =>

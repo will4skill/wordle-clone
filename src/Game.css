@@ -256,12 +256,17 @@ body {
   margin-bottom: 5px;
 }
 
-/* @media (min-width: 576px) {
-  .container {
-    max-width: 540px;
+@media (max-width: 576px) {
+  .gameBoardContainer {
+    margin-bottom: 15px;
+  }
+
+  .timer {
+    font-size: 35px;
   }
 }
 
+/*
 @media (min-width: 768px) {
   .container {
     max-width: 720px;
